@@ -1,0 +1,28 @@
+/* чекни про 80wh */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+}
+/* input don`t use anyone */
+.input {
+  color: black;
+}
+.invalid {
+  border: 1px solid red;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.bottom {
+  margin-top: 20px;
+  text-align: center;
+}

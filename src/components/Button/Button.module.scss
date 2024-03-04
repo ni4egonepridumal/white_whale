@@ -1,0 +1,27 @@
+.button {
+  cursor: pointer;
+  transition: background 0.25s;
+  border: none;
+  color: white;
+  border-radius: 6px;
+}
+.big {
+  padding: 8px 30px;
+  font-size: 16px;
+}
+.accent:hover {
+  background: #312eb5;
+}
+.accent {
+  background: #646cff;
+}
+.red {
+  background: #ff6464;
+}
+.disabled {
+  background: #b3b0b0;
+  cursor: auto;
+}
+.disabled:hover {
+  background: #b3b0b0;
+}
