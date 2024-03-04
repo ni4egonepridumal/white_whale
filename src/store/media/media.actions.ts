@@ -1,15 +1,10 @@
-// перенси типизацию в файл другой
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import {
-  BASE_URL,
-  JWT_token,
-  instanceAxios,
-} from "../../services/auth/auth.service";
+import { BASE_URL, instanceAxios } from "../../services/auth/auth.service";
 import { AxiosError } from "axios";
-// import { loadState } from "../storage";
-import { JWT } from "../user/userAuthorization.slice";
+import { loadState } from "../storage";
+import { IPost, IRemoveId } from "./media.types";
 
-// const token = loadState(JWT) ?? null;
+const token = loadState("token_white");
 
 export const fetchGetFiles = createAsyncThunk(
   "getAllMedia/fetchGetFiles",
@@ -30,15 +25,6 @@ export const fetchGetFiles = createAsyncThunk(
     }
   }
 );
-
-export interface IPost {
-  createdAt: string;
-  fileName: string;
-  id: string;
-  mimeType: string;
-  name: string;
-  url: string;
-}
 
 export const fetchPostFiles = createAsyncThunk<_, IPost>(
   "postMedia/fetchPostFiles",
@@ -62,10 +48,6 @@ export const fetchPostFiles = createAsyncThunk<_, IPost>(
   }
 );
 
-interface IRemoveId {
-  id: string;
-}
-
 export const fetchRemoveMedia = createAsyncThunk<_, IRemoveId>(
   "removeMedia/fetchRemoveMedia",
   async (id, { rejectWithValue }) => {
@@ -87,19 +69,10 @@ export const fetchRemoveMedia = createAsyncThunk<_, IRemoveId>(
   }
 );
 
-
-interface IMedia {
-  createdAt: string;
-  fileName: string;
-  id: string;
-  mimeType: string;
-  name: string;
-  url: string;
-}
-
-export async function fetchGetMedia(media: IMedia) {
+// в данном случае использую fetch, для корректной работы с blob
+export async function fetchGetMedia(media: IPost) {
   const response = await fetch(`${BASE_URL}/media/${media.id}`, {
-    headers: { Authorization: `Bearer ${JWT_token.token}` },
+    headers: { Authorization: `Bearer ${token}` },
   });
   if (response.status === 200) {
     const blob = await response.blob();

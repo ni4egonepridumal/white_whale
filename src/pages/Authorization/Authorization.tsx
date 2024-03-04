@@ -11,7 +11,6 @@ import { useNavigate } from 'react-router-dom'
 
 export const Authorization = () => {
 
-
     const [formValidState, setFormValidState] = useState({
         email: '',
         password: '',
@@ -25,21 +24,17 @@ export const Authorization = () => {
         password: false,
     })
     const dispatch = useAppDispatch()
-    const { token, isError, isLoaded, status } = useAppSelector(state => state.authorization)
+
+    const { isError, isLoaded, status } = useAppSelector(state => state.authorization)
 
     const navigate = useNavigate()
+
     useEffect(() => {
-        // console.log("ошибка из страницы авторизации", isError, 'navigate', navigate)
         if (isError === null && status === 'success') {
             navigate("/user")
         }
     }, [isError, status, navigate])
-
-    const otdelnayafunkciya = (e) => {
-        authorizationUser();
-        getInputs(e, formValidState, setFormValidState, setErrorsStatus, setErrorsMessage)
-    }
-
+    // перед авторизацией проверяем на отсутствие ошибок
     const authorizationUser = () => {
         if (errorsMessage.email.length > 1 || errorsMessage.password.length > 1 || errorsStatus.email === true || errorsStatus.password === true) {
             console.log("есть ошибки")
@@ -51,7 +46,7 @@ export const Authorization = () => {
         <div className={styles.container}>
             {/* в данном случае библиотеку classnames не использую, для наглядности */}
             <div className={styles.innerForm}>
-                <form className={styles.form} onSubmit={otdelnayafunkciya}>
+                <form className={styles.form} onSubmit={(e) => { authorizationUser(); getInputs(e, formValidState, setFormValidState, setErrorsStatus, setErrorsMessage) }}>
                     <div className={styles.field}>
                         <label htmlFor="email">Эл.ящик</label>
                         <Input
@@ -84,7 +79,6 @@ export const Authorization = () => {
                     </div>
                     {isError ? <p style={{ color: 'red' }}>{isError}</p> : null}
                     {isLoaded ? <Button>Загрузка...</Button> : <Button>Войти</Button>}
-                    <button onClick={() => navigate("/user")}>YF ufkdye.</button>
                 </form>
                 <div className={styles.bottom}>
                     <div>Еще нет аккаунта ?</div>

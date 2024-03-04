@@ -16,15 +16,10 @@ export const removeMedia = createSlice({
         state.isLoaded = true;
         state.isError = null;
       })
-      .addCase(fetchRemoveMedia.fulfilled, (state, action) => {
-        console.log(
-          "Данные которые пришли, после !!!УДАЛЕНИЯ!!! файла",
-          action.payload
-        );
+      .addCase(fetchRemoveMedia.fulfilled, (state) => {
         state.isLoaded = false;
       })
       .addCase(fetchRemoveMedia.rejected, (state, action) => {
-        console.log(action.error);
         state.isLoaded = false;
         // @ts-ignore
         state.isError = action.error.message;

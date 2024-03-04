@@ -18,7 +18,6 @@ export const getAllMedia = createSlice({
         state.isError = null;
       })
       .addCase(fetchGetFiles.fulfilled, (state, action) => {
-        // console.log("Данные которые пришли, после регистрации", action.payload);
         state.allMedia = action.payload.files;
         state.isLoaded = false;
       })

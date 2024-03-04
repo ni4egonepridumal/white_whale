@@ -1,10 +1,10 @@
-
+import styles from "./Error.module.scss"
 
 export const ErrorPage = () => {
     return (
-        <div>
+        <h3 className={styles.container}>
             Страница ошибки
-        </div>
+        </h3>
     );
 };
 

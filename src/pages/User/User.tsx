@@ -8,8 +8,6 @@ import { MediaItem } from "../../components/MediaItem"
 import { IPropMedia } from "./User.types"
 import { logout } from "../../store/user/userAuthorization.slice"
 import { useNavigate } from "react-router-dom"
-import { JWT_token } from "../../services/auth/auth.service"
-
 
 
 export const User = () => {
@@ -20,15 +18,19 @@ export const User = () => {
     const [isImage, setIsImage] = useState(true);
     const dispatch = useAppDispatch()
     const ref = useRef<HTMLInputElement>()
-    const { isError, allMedia, isLoaded } = useAppSelector(state => state.getAllMedia)
 
+    const { isError, allMedia, isLoaded } = useAppSelector(state => state.getAllMedia)
+    const { token } = useAppSelector(state => state.authorization)
     const isLoadedFromAddNewFile = useAppSelector(state => state.postMedia.isLoaded)
+    const errorFromLoadFile = useAppSelector(state => state.postMedia.isError)
     const isLoadedFromRemoveMedia = useAppSelector(state => state.removeMedia.isLoaded)
+
     const navigate = useNavigate();
     const fetchData = () => {
         dispatch(fetchGetFiles())
     }
 
+    // функция для прелоадера загруженных картинок, получает файлы для загрузки
     const saveFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNewFile([...e.target.files])
         setAddNewFile(e.target.files[0])
@@ -36,7 +38,7 @@ export const User = () => {
     const handlePick = () => {
         ref.current.click()
     }
-
+    // функция для отправки загруженных картинок
     const fetchPostData = () => {
         const data = new FormData();
         files.forEach(item => data.append('files[]', item))
@@ -46,8 +48,7 @@ export const User = () => {
     }
 
     const LogoutUser = () => {
-        dispatch(fetchLogout(JWT_token.token))
-        localStorage.removeItem('token')
+        dispatch(fetchLogout(token))
         dispatch(logout())
         navigate('/authorization');
     }
@@ -57,6 +58,7 @@ export const User = () => {
     }, [isLoadedFromAddNewFile, isLoadedFromRemoveMedia])
 
     useEffect(() => {
+        // проверяем, что отображать если загрузили картинку или файл
         if (!addNewFile) {
             return;
         }
@@ -71,7 +73,6 @@ export const User = () => {
             setIsImage(false);
         }
     }, [addNewFile]);
-    console.log("ошибка из user", isError)
     return (
         <div className={styles.container}>
             <div>
@@ -80,7 +81,7 @@ export const User = () => {
                         {isLoaded === false ?
                             <div>
                                 <h3>Ваши файлы <span style={{ color: '#646cff' }}>{allMedia.length}</span> шт:</h3>
-                                {allMedia.length >= 20 && <h3 style={{ color: 'red' }}>Вы достигли макисмального количества загруженных файлов</h3>}
+                                {allMedia.length >= 20 && <h3 style={{ color: 'red' }}>Вы достигли максимального количества загруженных файлов</h3>}
                                 {allMedia && allMedia?.map((item: IPropMedia) => <MediaItem key={item.id} media={item} />)}
                             </div>
                             :
@@ -91,7 +92,10 @@ export const User = () => {
                     <>
                         {isLoaded === false ?
                             <>
-                                {isError === "Unauthenticated." ? <h2 style={{ color: 'red' }}>Вы не авторизованы</h2> : <p>У вас нет ни одного медиафайла</p>}
+                                {isError !== 'Unauthenticated.' ?
+                                    <p>У вас нет ни одного медиафайла</p>
+                                    :
+                                    <p>Вы не зарегистрированы или у вас нет профиля</p>}
                             </>
                             :
                             <p>Загрузка...</p>
@@ -99,9 +103,7 @@ export const User = () => {
                     </>
                 }
             </div>
-
             <div className={styles.image_inner}>
-
                 {/* проверяем что отобразить для превью */}
                 {previewUrl ? (
                     isImage ? (
@@ -119,15 +121,17 @@ export const User = () => {
                     onChange={saveFiles}
                     multiple
                 />
-                {/*  */}
                 <div className={styles.button_container}>
-                    {isError !== "Unauthenticated." ?
+                    {isError !== 'Unauthenticated.' ?
                         <>
                             <Button disabled={allMedia.length >= 20 ? true : false} onClick={handlePick}>Выбрать файл</Button>
+                            {errorFromLoadFile && <h4 style={{ color: 'red' }}>Ошибка !!!Размер файла не должен превышать 1мб</h4>}
                             <Button onClick={fetchPostData}>Отправить файл</Button>
                             <Button color='red' onClick={LogoutUser}>Выйти из профиля</Button>
                         </>
-                        : <Button color='red' onClick={() => navigate('/authorization')}>Авторизоваться</Button>}
+                        :
+                        <Button onClick={() => navigate('/authorization')}>Авторизоваться</Button>}
+
                 </div>
             </div>
         </div>

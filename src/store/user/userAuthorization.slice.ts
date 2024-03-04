@@ -2,13 +2,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchAuthorization } from "./user.actions";
 import { IAuthorization } from "./user.types";
+import { loadState } from "../storage";
 
-export const JWT = "jwt";
+export const JWT = "token_white";
 
 const initialState: IAuthorization = {
   isLoaded: false,
   isError: null,
-  token: null,
+  token: loadState(JWT) ?? null,
   status: "",
 };
 
@@ -28,14 +29,11 @@ export const userAuthorization = createSlice({
         state.isError = null;
       })
       .addCase(fetchAuthorization.fulfilled, (state, action) => {
-        // console.log("Данные которые пришли, после регистрации", action.payload);
         state.token = action.payload?.token;
-        localStorage.setItem("token", action.payload?.token);
         state.status = "success";
         state.isLoaded = false;
       })
       .addCase(fetchAuthorization.rejected, (state, action) => {
-        console.log(action.error);
         state.isLoaded = false;
         // @ts-ignore
         state.isError = action.error.message;

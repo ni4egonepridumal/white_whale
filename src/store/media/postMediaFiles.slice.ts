@@ -18,18 +18,13 @@ export const postMedia = createSlice({
         state.isError = null;
       })
       .addCase(fetchPostFiles.fulfilled, (state, action) => {
-        console.log(
-          "Данные которые пришли, после отправки файла",
-          action.payload
-        );
         state.files = action.payload;
         state.isLoaded = false;
       })
       .addCase(fetchPostFiles.rejected, (state, action) => {
-        console.log(action.error);
         state.isLoaded = false;
         // @ts-ignore
-        state.isError = action.error.message;
+        state.isError = action.error;
       });
   },
 });

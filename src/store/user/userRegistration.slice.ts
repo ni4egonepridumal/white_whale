@@ -1,9 +1,8 @@
 // есть логи, почекай их
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchRegistration } from "./user.actions";
-import { IRegistrationData } from "./user.types";
 
-const initialState: IRegistrationData = {
+const initialState = {
   isError: null,
   isLoaded: false,
 };
@@ -18,8 +17,7 @@ export const userRegistration = createSlice({
         state.isLoaded = true;
         state.isError = null;
       })
-      .addCase(fetchRegistration.fulfilled, (state, action) => {
-        console.log("Данные которые пришли, после регистрации", action.payload);
+      .addCase(fetchRegistration.fulfilled, (state) => {
         state.isLoaded = false;
       })
       .addCase(fetchRegistration.rejected, (state, action) => {

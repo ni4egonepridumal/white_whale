@@ -1,14 +1,15 @@
 // измени тайп на пассворд в инпуте пассворд
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../../components/Button"
 import { Input } from "../../components/Input";
 import styles from "./Registration.module.scss"
 import { useState, } from "react"
 import { getInputs, handleChange, validate } from "../../utils/validationForm";
-import { useAppDispatch } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { fetchRegistration } from "../../store/user/user.actions";
 
 export const Registration = () => {
+
     const [formValidState, setFormValidState] = useState({
         name: '',
         email: '',
@@ -26,102 +27,20 @@ export const Registration = () => {
     })
 
     const dispatch = useAppDispatch()
-
-    // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     const { name, value } = e.target;
-    //     setFormValidState({
-    //         ...formValidState,
-    //         [name]: value,
-    //     });
-    // };
-
-    // const getInputs = (e: React.FormEvent) => {
-    //     e.preventDefault();
-    //     //@ts-ignore
-    //     const formData = new FormData(e.target);
-    //     const formProps = Object.fromEntries(formData);
-    //     let isFormValid: boolean = true
-    //     // name
-    //     if (!formProps.name?.trim().length) {
-    //         setFormValidState((state) => ({ ...state, name: formValidState.name }))
-    //         setErrorsStatus((state) => ({ ...state, name: true }))
-    //         setErrorsMessage((state) => ({ ...state, name: "поле обязательно" }))
-    //         isFormValid = false
-    //     } else {
-    //         setErrorsMessage((state) => ({ ...state, name: "" }))
-    //         setErrorsStatus((state) => ({ ...state, name: false }))
-    //     }
-    //     //email
-    //     if (!formProps.email?.trim().length) {
-    //         setFormValidState((state) => ({ ...state, email: formValidState.email }))
-    //         setErrorsStatus((state) => ({ ...state, email: true }))
-    //         setErrorsMessage((state) => ({ ...state, email: "поле обязательно" }))
-    //         isFormValid = false
-    //     } else {
-    //         setErrorsMessage((state) => ({ ...state, email: "" }))
-    //         setErrorsStatus((state) => ({ ...state, email: false }))
-    //     }
-    //     //password
-    //     if (!formProps.password?.trim().length) {
-    //         setFormValidState((state) => ({ ...state, password: formValidState.password }))
-    //         setErrorsStatus((state) => ({ ...state, password: true }))
-    //         setErrorsMessage((state) => ({ ...state, password: "поле обязательно" }))
-    //         isFormValid = false
-    //     } else {
-    //         setErrorsMessage((state) => ({ ...state, password: "" }))
-    //         setErrorsStatus((state) => ({ ...state, password: false }))
-    //     }
-    //     if (!isFormValid) {
-    //         return;
-    //     }
-    // };
-
-    // const validate = () => {
-    //     // name
-    //     if (!formValidState.name?.trim().length) {
-    //         setFormValidState((state) => ({ ...state, name: formValidState.name }))
-    //         setErrorsStatus((state) => ({ ...state, name: true }))
-    //         setErrorsMessage((state) => ({ ...state, name: "поле обязательно" }))
-    //     } else if (formValidState.name.length <= 3) {
-    //         setErrorsStatus((state) => ({ ...state, name: true }))
-    //         setErrorsMessage((state) => ({ ...state, name: "имя длиннее 3 символов" }))
-    //     }
-    //     else {
-    //         setErrorsStatus((state) => ({ ...state, name: false }))
-    //         setErrorsMessage((state) => ({ ...state, name: "" }))
-    //     }
-    //     // email
-    //     if (!formValidState.email?.trim().length) {
-    //         setFormValidState((state) => ({ ...state, email: formValidState.email }))
-    //         setErrorsStatus((state) => ({ ...state, email: true }))
-    //         setErrorsMessage((state) => ({ ...state, email: "поле обязательно" }))
-    //     } else if (!/\S+@\S+\.\S+/.test(formValidState.email)) {
-    //         setErrorsStatus((state) => ({ ...state, email: true }))
-    //         setErrorsMessage((state) => ({ ...state, email: "введите корректный email" }))
-    //     }
-    //     else {
-    //         setErrorsStatus((state) => ({ ...state, email: false }))
-    //         setErrorsMessage((state) => ({ ...state, email: "" }))
-    //     }
-    //     // password
-    //     if (!formValidState.password?.trim().length) {
-    //         setFormValidState((state) => ({ ...state, password: formValidState.password }))
-    //         setErrorsStatus((state) => ({ ...state, password: true }))
-    //         setErrorsMessage((state) => ({ ...state, password: "поле обязательно" }))
-    //     }
-    //     else {
-    //         setErrorsStatus((state) => ({ ...state, password: false }))
-    //         setErrorsMessage((state) => ({ ...state, password: "" }))
-    //     }
-    // }
+    const { isError, isLoaded } = useAppSelector(state => state.registration)
+    const navigate = useNavigate();
+    // проверяем на отсутствие ошибок перед регистрацией
 
     const registrationUser = () => {
         if (errorsMessage.email.length > 1 || errorsMessage.name.length > 1 || errorsMessage.password.length > 1 || errorsStatus.email === true || errorsStatus.name === true || errorsStatus.password === true) {
             console.log("есть ошибки")
         } else {
             dispatch(fetchRegistration(formValidState))
+            navigate('/authorization');
         }
     }
+
+
 
     return (
         <div className={styles.container}>
@@ -160,7 +79,7 @@ export const Registration = () => {
                         <label htmlFor="password">Пароль</label>
                         <Input
                             id="password"
-                            type="text"
+                            type="password"
                             name="password"
                             placeholder="password"
                             className={`${errorsStatus.password ? styles.invalid : ""}`}
@@ -174,7 +93,9 @@ export const Registration = () => {
                     </div>
 
                     <Button>Зарегистрироваться</Button>
+                    {isLoaded === true ? <p>Загрузка ...</p> : null}
                 </form>
+                {isError && <p style={{ color: "red" }}>Ошибка сервера, попробуйте позже</p>}
                 <div className={styles.bottom}>
                     <div>Уже есть аккаунт ?</div>
                     <div style={{ color: "#646cff" }}><Link to="/authorization">Авторизоваться!</Link></div>

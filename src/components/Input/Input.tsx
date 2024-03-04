@@ -1,4 +1,3 @@
-//  начальное знвчение изВалид можно поставить тру ?? 
 import cn from "classnames"
 import { forwardRef } from "react";
 import { InputProps } from "./Input.types";

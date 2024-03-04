@@ -1,15 +1,15 @@
-// чекни недочеты тут 
 import { Link } from "react-router-dom";
 import styles from "./Header.module.scss"
-import { JWT_token } from "../../services/auth/auth.service";
+import { useAppSelector } from "../../store/hooks";
 
 export const Header = () => {
+    const { token } = useAppSelector(state => state.authorization)
     return (
         <div className={styles.container}>
             <div className={styles.content}>
                 <div><Link to={"/"}>ЛОГОТИП</Link></div>
                 <div>
-                    {JWT_token === null ?
+                    {token === null ?
                         <p>
                             <Link to={"/registration"}>
                                 <span>Регистрация/</span>

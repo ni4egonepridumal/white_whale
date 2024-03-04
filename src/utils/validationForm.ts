@@ -1,5 +1,10 @@
-import { IErrorsMessage, IErrorsStatus, IFormValidState } from "./validationForm.types";
+import {
+  IErrorsMessage,
+  IErrorsStatus,
+  IFormValidState,
+} from "./validationForm.types";
 
+// вспомогательные функции для валидации инпутов в формах
 
 export const handleChange = (
   e: React.ChangeEvent<HTMLInputElement>,
