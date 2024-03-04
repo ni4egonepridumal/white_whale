@@ -12,7 +12,7 @@ git clone https://github.com/ni4egonepridumal/white_whale.git
 Second:
 
 ```shell
-cd frontend
+cd white_whale
 ```
 
 Third: 
