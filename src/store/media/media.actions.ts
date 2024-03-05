@@ -19,7 +19,6 @@ export const fetchGetFiles = createAsyncThunk(
       if (err instanceof AxiosError) {
         throw new Error(err.response?.data.message);
       }
-      console.log(err);
       // @ts-ignore
       return rejectWithValue(err?.response?.data);
     }
@@ -29,7 +28,6 @@ export const fetchGetFiles = createAsyncThunk(
 export const fetchPostFiles = createAsyncThunk<_, IPost>(
   "postMedia/fetchPostFiles",
   async (data, { rejectWithValue }) => {
-    console.log("данные для отправки поста", data);
     try {
       const res = await instanceAxios({
         method: "POST",
@@ -41,7 +39,6 @@ export const fetchPostFiles = createAsyncThunk<_, IPost>(
       if (err instanceof AxiosError) {
         throw new Error(err.response?.data.message);
       }
-      console.log(err);
       // @ts-ignore
       return rejectWithValue(err?.response?.data);
     }
@@ -51,7 +48,6 @@ export const fetchPostFiles = createAsyncThunk<_, IPost>(
 export const fetchRemoveMedia = createAsyncThunk<_, IRemoveId>(
   "removeMedia/fetchRemoveMedia",
   async (id, { rejectWithValue }) => {
-    console.log("данные для отправки поста", id);
     try {
       const res = await instanceAxios({
         method: "DELETE",
@@ -62,7 +58,6 @@ export const fetchRemoveMedia = createAsyncThunk<_, IRemoveId>(
       if (err instanceof AxiosError) {
         throw new Error(err.response?.data.message);
       }
-      console.log(err);
       // @ts-ignore
       return rejectWithValue(err?.response?.data);
     }

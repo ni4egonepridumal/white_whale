@@ -14,6 +14,6 @@ export interface IToken {}
 export interface IAuthorization {
   isLoaded: boolean;
   isError: null | string;
-  token: string | undefined | null;
+  token: string | null;
   status?: string;
 }

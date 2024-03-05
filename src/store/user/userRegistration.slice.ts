@@ -1,4 +1,3 @@
-// есть логи, почекай их
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchRegistration } from "./user.actions";
 

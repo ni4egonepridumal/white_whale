@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom"
 export const User = () => {
 
     const [files, setNewFile] = React.useState([])
-    const [addNewFile, setAddNewFile] = useState(null)
+    const [addNewFile, setAddNewFile] = useState<null | Blob>(null)
     const [previewUrl, setPreviewUrl] = useState(null);
     const [isImage, setIsImage] = useState(true);
     const dispatch = useAppDispatch()
@@ -36,7 +36,9 @@ export const User = () => {
         setAddNewFile(e.target.files[0])
     }
     const handlePick = () => {
-        ref.current.click()
+        if (ref.current) {
+            ref.current.click();
+        }
     }
     // функция для отправки загруженных картинок
     const fetchPostData = () => {
@@ -48,8 +50,8 @@ export const User = () => {
     }
 
     const LogoutUser = () => {
-        dispatch(fetchLogout(token))
         dispatch(logout())
+        dispatch(fetchLogout(token))
         navigate('/authorization');
     }
 
@@ -122,16 +124,16 @@ export const User = () => {
                     multiple
                 />
                 <div className={styles.button_container}>
-                    {isError !== 'Unauthenticated.' ?
+                    {isError === 'Unauthenticated.' ?
+                        <Button onClick={() => navigate('/authorization')}>Авторизоваться</Button>
+                        :
                         <>
                             <Button disabled={allMedia.length >= 20 ? true : false} onClick={handlePick}>Выбрать файл</Button>
                             {errorFromLoadFile && <h4 style={{ color: 'red' }}>Ошибка !!!Размер файла не должен превышать 1мб</h4>}
                             <Button onClick={fetchPostData}>Отправить файл</Button>
                             <Button color='red' onClick={LogoutUser}>Выйти из профиля</Button>
                         </>
-                        :
-                        <Button onClick={() => navigate('/authorization')}>Авторизоваться</Button>}
-
+                    }
                 </div>
             </div>
         </div>

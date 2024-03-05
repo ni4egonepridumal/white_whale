@@ -46,7 +46,6 @@ export const fetchAuthorization = createAsyncThunk<_, IDataFromForm>(
 export const fetchLogout = createAsyncThunk<_, string | null>(
   "userLogout/fetchLogout",
   async (token, { rejectWithValue }) => {
-    console.log("token из экшена !!!", token);
     try {
       const res = await axios({
         headers: { Authorization: `Bearer ${token}` },
