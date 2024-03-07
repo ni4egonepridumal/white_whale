@@ -22,7 +22,7 @@ export const getAllMedia = createSlice({
         state.isLoaded = false;
       })
       .addCase(fetchGetFiles.rejected, (state, action) => {
-        state.isLoaded = true;
+        state.isLoaded = false;
         // @ts-ignore
         state.isError = action.error.message;
       });
