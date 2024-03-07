@@ -9,7 +9,6 @@ import { IPropMedia } from "./User.types"
 import { logout } from "../../store/user/userAuthorization.slice"
 import { useNavigate } from "react-router-dom"
 
-
 export const User = () => {
 
     const [files, setNewFile] = React.useState([])
@@ -24,12 +23,10 @@ export const User = () => {
     const isLoadedFromAddNewFile = useAppSelector(state => state.postMedia.isLoaded)
     const errorFromLoadFile = useAppSelector(state => state.postMedia.isError)
     const isLoadedFromRemoveMedia = useAppSelector(state => state.removeMedia.isLoaded)
-
     const navigate = useNavigate();
     const fetchData = () => {
         dispatch(fetchGetFiles())
     }
-
     // функция для прелоадера загруженных картинок, получает файлы для загрузки
     const saveFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNewFile([...e.target.files])

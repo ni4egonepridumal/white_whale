@@ -1,8 +1,7 @@
 // создаем инстанс аксиоса, для прикрепления в хедер токена авторизации
 import axios from "axios";
 import { loadState } from "../../store/storage";
-
-const token = loadState("token_white");
+import { JWT } from "../../store/user/userAuthorization.slice";
 
 export const BASE_URL = "https://js-test.kitactive.ru/api";
 
@@ -17,7 +16,7 @@ instanceAxios.interceptors.request.use(
     if (config.url && urlsSkipAuth.includes(config.url)) {
       return config;
     }
-    config.headers.Authorization = `Bearer ${token}`;
+    config.headers.Authorization = `Bearer ${loadState(JWT)}`;
     return config;
   },
   (error) => {

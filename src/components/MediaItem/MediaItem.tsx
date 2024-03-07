@@ -1,4 +1,3 @@
-// типизация
 import { fetchGetMedia, fetchRemoveMedia } from '../../store/media/media.actions';
 import { Button } from '../Button';
 import { IPropMedia } from './MediaItem.types';

@@ -8,7 +8,6 @@ import { getInputs, handleChange, validate } from "../../utils/validationForm";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { useNavigate } from 'react-router-dom'
 
-
 export const Authorization = () => {
 
     const [formValidState, setFormValidState] = useState({

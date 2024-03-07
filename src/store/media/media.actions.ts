@@ -8,7 +8,7 @@ const token = loadState("token_white");
 
 export const fetchGetFiles = createAsyncThunk(
   "getAllMedia/fetchGetFiles",
-  async (_, { rejectWithValue }) => {
+  async () => {
     try {
       const res = await instanceAxios({
         method: "GET",
@@ -19,15 +19,13 @@ export const fetchGetFiles = createAsyncThunk(
       if (err instanceof AxiosError) {
         throw new Error(err.response?.data.message);
       }
-      // @ts-ignore
-      return rejectWithValue(err?.response?.data);
     }
   }
 );
 
 export const fetchPostFiles = createAsyncThunk<_, IPost>(
   "postMedia/fetchPostFiles",
-  async (data, { rejectWithValue }) => {
+  async (data) => {
     try {
       const res = await instanceAxios({
         method: "POST",
@@ -39,15 +37,13 @@ export const fetchPostFiles = createAsyncThunk<_, IPost>(
       if (err instanceof AxiosError) {
         throw new Error(err.response?.data.message);
       }
-      // @ts-ignore
-      return rejectWithValue(err?.response?.data);
     }
   }
 );
 
 export const fetchRemoveMedia = createAsyncThunk<_, IRemoveId>(
   "removeMedia/fetchRemoveMedia",
-  async (id, { rejectWithValue }) => {
+  async (id) => {
     try {
       const res = await instanceAxios({
         method: "DELETE",
@@ -58,8 +54,6 @@ export const fetchRemoveMedia = createAsyncThunk<_, IRemoveId>(
       if (err instanceof AxiosError) {
         throw new Error(err.response?.data.message);
       }
-      // @ts-ignore
-      return rejectWithValue(err?.response?.data);
     }
   }
 );

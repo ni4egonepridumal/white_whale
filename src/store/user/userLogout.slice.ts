@@ -24,7 +24,6 @@ export const logoutUser = createSlice({
         state.status = "success";
       })
       .addCase(fetchLogout.rejected, (state, action) => {
-        console.log(action.error);
         state.isLoaded = false;
         // @ts-ignore
         state.isError = action.error.message;

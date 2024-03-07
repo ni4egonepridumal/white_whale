@@ -5,7 +5,7 @@ import axios, { AxiosError } from "axios";
 
 export const fetchRegistration = createAsyncThunk<_, IDataFromForm>(
   "userRegistration/fetchRegistration",
-  async (dataFromForm, { rejectWithValue }) => {
+  async (dataFromForm) => {
     try {
       const res = await instanceAxios({
         method: "POST",
@@ -17,15 +17,13 @@ export const fetchRegistration = createAsyncThunk<_, IDataFromForm>(
       if (err instanceof AxiosError) {
         throw new Error(err.response?.data.message);
       }
-      // @ts-ignore
-      return rejectWithValue(err?.response?.data);
     }
   }
 );
 
 export const fetchAuthorization = createAsyncThunk<_, IDataFromForm>(
   "userAuthorization/fetchAuthorization",
-  async (dataFromForm, { rejectWithValue }) => {
+  async (dataFromForm) => {
     try {
       const res = await instanceAxios({
         method: "POST",
@@ -37,15 +35,13 @@ export const fetchAuthorization = createAsyncThunk<_, IDataFromForm>(
       if (err instanceof AxiosError) {
         throw new Error(err.response?.data.message);
       }
-      // @ts-ignore
-      return rejectWithValue(err?.response?.data);
     }
   }
 );
 
 export const fetchLogout = createAsyncThunk<_, string | null>(
   "userLogout/fetchLogout",
-  async (token, { rejectWithValue }) => {
+  async (token) => {
     try {
       const res = await axios({
         headers: { Authorization: `Bearer ${token}` },
@@ -57,8 +53,6 @@ export const fetchLogout = createAsyncThunk<_, string | null>(
       if (err instanceof AxiosError) {
         throw new Error(err.response?.data.message);
       }
-      // @ts-ignore
-      return rejectWithValue(err?.response?.data);
     }
   }
 );

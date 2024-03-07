@@ -1,4 +1,3 @@
-// измени тайп на пассворд в инпуте пассворд
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../../components/Button"
 import { Input } from "../../components/Input";
@@ -39,8 +38,6 @@ export const Registration = () => {
             navigate('/authorization');
         }
     }
-
-
 
     return (
         <div className={styles.container}>
