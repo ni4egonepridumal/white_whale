@@ -1,18 +1,18 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { BASE_URL, instanceAxios } from "../../services/auth/auth.service";
-import { AxiosError } from "axios";
-import { loadState } from "../storage";
-import { IPost, IRemoveId } from "./media.types";
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { BASE_URL, instanceAxios } from '../../services/auth/auth.service';
+import { AxiosError } from 'axios';
+import { loadState } from '../storage';
+import { IPost, IRemoveId } from './media.types';
 
-const token = loadState("token_white");
+const token = loadState('token_white');
 
 export const fetchGetFiles = createAsyncThunk(
-  "getAllMedia/fetchGetFiles",
+  'getAllMedia/fetchGetFiles',
   async () => {
     try {
       const res = await instanceAxios({
-        method: "GET",
-        url: "/media",
+        method: 'GET',
+        url: '/media'
       });
       return res.data;
     } catch (err) {
@@ -24,13 +24,13 @@ export const fetchGetFiles = createAsyncThunk(
 );
 
 export const fetchPostFiles = createAsyncThunk<_, IPost>(
-  "postMedia/fetchPostFiles",
+  'postMedia/fetchPostFiles',
   async (data) => {
     try {
       const res = await instanceAxios({
-        method: "POST",
-        url: "/media/upload",
-        data,
+        method: 'POST',
+        url: '/media/upload',
+        data
       });
       return res.data;
     } catch (err) {
@@ -42,12 +42,12 @@ export const fetchPostFiles = createAsyncThunk<_, IPost>(
 );
 
 export const fetchRemoveMedia = createAsyncThunk<_, IRemoveId>(
-  "removeMedia/fetchRemoveMedia",
+  'removeMedia/fetchRemoveMedia',
   async (id) => {
     try {
       const res = await instanceAxios({
-        method: "DELETE",
-        url: `/media/${id}`,
+        method: 'DELETE',
+        url: `/media/${id}`
       });
       return res.data;
     } catch (err) {
@@ -61,12 +61,12 @@ export const fetchRemoveMedia = createAsyncThunk<_, IRemoveId>(
 // в данном случае использую fetch, для корректной работы с blob
 export async function fetchGetMedia(media: IPost) {
   const response = await fetch(`${BASE_URL}/media/${media.id}`, {
-    headers: { Authorization: `Bearer ${token}` },
+    headers: { Authorization: `Bearer ${token}` }
   });
   if (response.status === 200) {
     const blob = await response.blob();
     const downLoadURL = window.URL.createObjectURL(blob);
-    const link = document.createElement("a");
+    const link = document.createElement('a');
     link.href = downLoadURL;
     link.download = media.name;
     document.body.appendChild(link);

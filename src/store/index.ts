@@ -1,11 +1,11 @@
-import { configureStore } from "@reduxjs/toolkit";
-import userRegistration from "./user/userRegistration.slice";
-import userAuthorization, { JWT } from "./user/userAuthorization.slice";
-import getAllMedia from "./media/getMediaFiles.slice";
-import postMedia from "./media/postMediaFiles.slice";
-import removeMedia from "./media/removeMediaFile.slice";
-import logoutUser from "./user/userLogout.slice";
-import { saveState } from "./storage";
+import { configureStore } from '@reduxjs/toolkit';
+import userRegistration from './user/userRegistration.slice';
+import userAuthorization, { JWT } from './user/userAuthorization.slice';
+import getAllMedia from './media/getMediaFiles.slice';
+import postMedia from './media/postMediaFiles.slice';
+import removeMedia from './media/removeMediaFile.slice';
+import logoutUser from './user/userLogout.slice';
+import { saveState } from './storage';
 
 export const store = configureStore({
   reducer: {
@@ -14,8 +14,8 @@ export const store = configureStore({
     getAllMedia: getAllMedia,
     postMedia: postMedia,
     removeMedia: removeMedia,
-    logoutUser: logoutUser,
-  },
+    logoutUser: logoutUser
+  }
 });
 // синхронизация localStorage с store
 store.subscribe(() => {

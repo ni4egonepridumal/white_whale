@@ -1,16 +1,16 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { fetchLogout } from "./user.actions";
+import { createSlice } from '@reduxjs/toolkit';
+import { fetchLogout } from './user.actions';
 
-export const JWT = "jwt";
+export const JWT = 'jwt';
 
 const initialState = {
   isLoaded: false,
   isError: null,
-  status: "",
+  status: ''
 };
 
 export const logoutUser = createSlice({
-  name: "logoutUser",
+  name: 'logoutUser',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -21,14 +21,14 @@ export const logoutUser = createSlice({
       })
       .addCase(fetchLogout.fulfilled, (state) => {
         state.isLoaded = false;
-        state.status = "success";
+        state.status = 'success';
       })
       .addCase(fetchLogout.rejected, (state, action) => {
         state.isLoaded = false;
         // @ts-ignore
         state.isError = action.error.message;
       });
-  },
+  }
 });
 
 export default logoutUser.reducer;

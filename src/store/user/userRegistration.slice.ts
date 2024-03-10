@@ -1,13 +1,13 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { fetchRegistration } from "./user.actions";
+import { createSlice } from '@reduxjs/toolkit';
+import { fetchRegistration } from './user.actions';
 
 const initialState = {
   isError: null,
-  isLoaded: false,
+  isLoaded: false
 };
 
 export const userRegistration = createSlice({
-  name: "userRegistration",
+  name: 'userRegistration',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -24,7 +24,7 @@ export const userRegistration = createSlice({
         // @ts-ignore
         state.isError = action.payload;
       });
-  },
+  }
 });
 
 export default userRegistration.reducer;

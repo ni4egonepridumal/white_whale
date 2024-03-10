@@ -1,10 +1,10 @@
-import { Route, Routes } from "react-router-dom"
-import { Header } from "./components/Header"
-import { Home } from "./pages/Home"
-import { ErrorPage } from "./pages/Error"
-import { Registration } from "./pages/Registration"
-import { Authorization } from "./pages/Authorization"
-import { User } from "./pages/User"
+import { Route, Routes } from 'react-router-dom';
+import { Header } from './components/Header';
+import { Home } from './pages/Home';
+import { ErrorPage } from './pages/Error';
+import { Registration } from './pages/Registration';
+import { Authorization } from './pages/Authorization';
+import { User } from './pages/User';
 
 function App() {
 
@@ -21,7 +21,7 @@ function App() {
         </Routes>
       </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

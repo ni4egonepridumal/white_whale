@@ -1,14 +1,14 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { fetchPostFiles } from "./media.actions";
+import { createSlice } from '@reduxjs/toolkit';
+import { fetchPostFiles } from './media.actions';
 
 const initialState = {
   files: null,
   isLoaded: false,
-  isError: null,
+  isError: null
 };
 
 export const postMedia = createSlice({
-  name: "postMedia",
+  name: 'postMedia',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -26,7 +26,7 @@ export const postMedia = createSlice({
         // @ts-ignore
         state.isError = action.error;
       });
-  },
+  }
 });
 
 export default postMedia.reducer;

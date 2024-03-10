@@ -1,13 +1,13 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { fetchRemoveMedia } from "./media.actions";
+import { createSlice } from '@reduxjs/toolkit';
+import { fetchRemoveMedia } from './media.actions';
 
 const initialState = {
   isLoaded: false,
-  isError: null,
+  isError: null
 };
 
 export const removeMedia = createSlice({
-  name: "removeMedia",
+  name: 'removeMedia',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -24,7 +24,7 @@ export const removeMedia = createSlice({
         // @ts-ignore
         state.isError = action.error.message;
       });
-  },
+  }
 });
 
 export default removeMedia.reducer;

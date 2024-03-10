@@ -1,14 +1,14 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { fetchGetFiles } from "./media.actions";
+import { createSlice } from '@reduxjs/toolkit';
+import { fetchGetFiles } from './media.actions';
 
 const initialState = {
   allMedia: [],
   isLoaded: false,
-  isError: null,
+  isError: null
 };
 
 export const getAllMedia = createSlice({
-  name: "getAllMedia",
+  name: 'getAllMedia',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -26,7 +26,7 @@ export const getAllMedia = createSlice({
         // @ts-ignore
         state.isError = action.error.message;
       });
-  },
+  }
 });
 
 export default getAllMedia.reducer;

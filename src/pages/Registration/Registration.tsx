@@ -1,43 +1,43 @@
-import { Link, useNavigate } from "react-router-dom";
-import { Button } from "../../components/Button"
-import { Input } from "../../components/Input";
-import styles from "./Registration.module.scss"
-import { useState, } from "react"
-import { getInputs, handleChange, validate } from "../../utils/validationForm";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { fetchRegistration } from "../../store/user/user.actions";
+import { Link, useNavigate } from 'react-router-dom';
+import { Button } from '../../components/Button';
+import { Input } from '../../components/Input';
+import styles from './Registration.module.scss';
+import { useState } from 'react';
+import { getInputs, handleChange, validate } from '../../utils/validationForm';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { fetchRegistration } from '../../store/user/user.actions';
 
 export const Registration = () => {
 
     const [formValidState, setFormValidState] = useState({
         name: '',
         email: '',
-        password: '',
-    })
+        password: ''
+    });
     const [errorsMessage, setErrorsMessage] = useState({
         name: '',
         email: '',
-        password: '',
-    })
+        password: ''
+    });
     const [errorsStatus, setErrorsStatus] = useState({
         name: false,
         email: false,
-        password: false,
-    })
+        password: false
+    });
 
-    const dispatch = useAppDispatch()
-    const { isError, isLoaded } = useAppSelector(state => state.registration)
+    const dispatch = useAppDispatch();
+    const { isError, isLoaded } = useAppSelector(state => state.registration);
     const navigate = useNavigate();
     // проверяем на отсутствие ошибок перед регистрацией
 
     const registrationUser = () => {
         if (errorsMessage.email.length > 1 || errorsMessage.name.length > 1 || errorsMessage.password.length > 1 || errorsStatus.email === true || errorsStatus.name === true || errorsStatus.password === true) {
-            console.log("есть ошибки")
+            console.log('есть ошибки');
         } else {
-            dispatch(fetchRegistration(formValidState))
+            dispatch(fetchRegistration(formValidState));
             navigate('/authorization');
         }
-    }
+    };
 
     return (
         <div className={styles.container}>
@@ -51,7 +51,7 @@ export const Registration = () => {
                             type="text"
                             name="name"
                             placeholder="name"
-                            className={`${errorsStatus.name ? styles.invalid : ""}`}
+                            className={`${errorsStatus.name ? styles.invalid : ''}`}
                             value={formValidState.name}
                             onChange={(e) => handleChange(e, formValidState, setFormValidState)}
                             onBlur={() => validate(formValidState, setErrorsStatus, setFormValidState, setErrorsMessage)}
@@ -65,7 +65,7 @@ export const Registration = () => {
                             type="text"
                             name="email"
                             placeholder="email"
-                            className={`${errorsStatus.email ? styles.invalid : ""}`}
+                            className={`${errorsStatus.email ? styles.invalid : ''}`}
                             value={formValidState.email}
                             onChange={(e) => handleChange(e, formValidState, setFormValidState)}
                             onBlur={() => validate(formValidState, setErrorsStatus, setFormValidState, setErrorsMessage)}
@@ -79,7 +79,7 @@ export const Registration = () => {
                             type="password"
                             name="password"
                             placeholder="password"
-                            className={`${errorsStatus.password ? styles.invalid : ""}`}
+                            className={`${errorsStatus.password ? styles.invalid : ''}`}
                             value={formValidState.password}
                             // функция handleChange используется для валидации пустых инпутов при первом клике и для контролиуемых инпутов
                             onChange={(e) => handleChange(e, formValidState, setFormValidState)}
@@ -92,10 +92,10 @@ export const Registration = () => {
                     <Button>Зарегистрироваться</Button>
                     {isLoaded === true ? <p>Загрузка ...</p> : null}
                 </form>
-                {isError && <p style={{ color: "red" }}>Ошибка сервера, попробуйте позже</p>}
+                {isError && <p style={{ color: 'red' }}>Ошибка сервера, попробуйте позже</p>}
                 <div className={styles.bottom}>
                     <div>Уже есть аккаунт ?</div>
-                    <div style={{ color: "#646cff" }}><Link to="/authorization">Авторизоваться!</Link></div>
+                    <div style={{ color: '#646cff' }}><Link to="/authorization">Авторизоваться!</Link></div>
                 </div>
             </div>
         </div>

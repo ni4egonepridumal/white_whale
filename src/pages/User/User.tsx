@@ -1,60 +1,60 @@
-import React, { useRef, useEffect, useState } from "react"
-import { Button } from "../../components/Button"
-import { useAppDispatch, useAppSelector } from "../../store/hooks"
-import { fetchGetFiles, fetchPostFiles } from "../../store/media/media.actions"
-import { fetchLogout } from "../../store/user/user.actions"
-import styles from "./User.module.scss"
-import { MediaItem } from "../../components/MediaItem"
-import { IPropMedia } from "./User.types"
-import { logout } from "../../store/user/userAuthorization.slice"
-import { useNavigate } from "react-router-dom"
+import React, { useRef, useEffect, useState } from 'react';
+import { Button } from '../../components/Button';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { fetchGetFiles, fetchPostFiles } from '../../store/media/media.actions';
+import { fetchLogout } from '../../store/user/user.actions';
+import styles from './User.module.scss';
+import { MediaItem } from '../../components/MediaItem';
+import { IPropMedia } from './User.types';
+import { logout } from '../../store/user/userAuthorization.slice';
+import { useNavigate } from 'react-router-dom';
 
 export const User = () => {
 
-    const [files, setNewFile] = React.useState([])
-    const [addNewFile, setAddNewFile] = useState<null | Blob>(null)
+    const [files, setNewFile] = React.useState([]);
+    const [addNewFile, setAddNewFile] = useState<null | Blob>(null);
     const [previewUrl, setPreviewUrl] = useState(null);
     const [isImage, setIsImage] = useState(true);
-    const dispatch = useAppDispatch()
-    const ref = useRef<HTMLInputElement>()
+    const dispatch = useAppDispatch();
+    const ref = useRef<HTMLInputElement>();
 
-    const { isError, allMedia, isLoaded } = useAppSelector(state => state.getAllMedia)
-    const { token } = useAppSelector(state => state.authorization)
-    const isLoadedFromAddNewFile = useAppSelector(state => state.postMedia.isLoaded)
-    const errorFromLoadFile = useAppSelector(state => state.postMedia.isError)
-    const isLoadedFromRemoveMedia = useAppSelector(state => state.removeMedia.isLoaded)
+    const { isError, allMedia, isLoaded } = useAppSelector(state => state.getAllMedia);
+    const { token } = useAppSelector(state => state.authorization);
+    const isLoadedFromAddNewFile = useAppSelector(state => state.postMedia.isLoaded);
+    const errorFromLoadFile = useAppSelector(state => state.postMedia.isError);
+    const isLoadedFromRemoveMedia = useAppSelector(state => state.removeMedia.isLoaded);
     const navigate = useNavigate();
     const fetchData = () => {
-        dispatch(fetchGetFiles())
-    }
+        dispatch(fetchGetFiles());
+    };
     // функция для прелоадера загруженных картинок, получает файлы для загрузки
     const saveFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setNewFile([...e.target.files])
-        setAddNewFile(e.target.files[0])
-    }
+        setNewFile([...e.target.files]);
+        setAddNewFile(e.target.files[0]);
+    };
     const handlePick = () => {
         if (ref.current) {
             ref.current.click();
         }
-    }
+    };
     // функция для отправки загруженных картинок
     const fetchPostData = () => {
         const data = new FormData();
-        files.forEach(item => data.append('files[]', item))
-        dispatch(fetchPostFiles(data))
-        fetchData()
-        setPreviewUrl(null)
-    }
+        files.forEach(item => data.append('files[]', item));
+        dispatch(fetchPostFiles(data));
+        fetchData();
+        setPreviewUrl(null);
+    };
 
     const LogoutUser = () => {
-        dispatch(logout())
-        dispatch(fetchLogout(token))
+        dispatch(logout());
+        dispatch(fetchLogout(token));
         navigate('/authorization');
-    }
+    };
 
     useEffect(() => {
-        fetchData()
-    }, [isLoadedFromAddNewFile, isLoadedFromRemoveMedia])
+        fetchData();
+    }, [isLoadedFromAddNewFile, isLoadedFromRemoveMedia]);
 
     useEffect(() => {
         // проверяем, что отображать если загрузили картинку или файл
@@ -64,7 +64,7 @@ export const User = () => {
         const reader = new FileReader();
         reader.onloadend = () => {
             setPreviewUrl(reader.result);
-        }
+        };
         reader.readAsDataURL(addNewFile);
         if (addNewFile?.type.startsWith('image/')) {
             setIsImage(true);
