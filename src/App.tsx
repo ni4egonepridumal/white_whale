@@ -19,7 +19,6 @@ function App() {
           <Route path="/authorization" element={<Authorization />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
-        <></>
       </div>
     </>
   );
