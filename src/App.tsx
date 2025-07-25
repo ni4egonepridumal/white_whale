@@ -9,6 +9,7 @@ import { User } from './pages/User';
 function App() {
 
   return (
+     console.log("cc")
     <>
       <Header />
       <div className="container">
